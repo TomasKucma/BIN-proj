@@ -262,7 +262,7 @@ struct CGP {
         }
         // if perfect fitness, take block usage into account
         if (fitness == out_count * bit_count) {
-            fitness = cols * rows - get_used_block_count(chromosome);
+            fitness += cols * rows - get_used_block_count(chromosome);
         }
         return fitness;
     }
