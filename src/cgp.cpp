@@ -227,7 +227,26 @@ struct CGP {
 
     size_t get_used_block_count(const Chromosome &chromosome) {
         size_t used_block_count = 0;
-        // TODO
+        const size_t blocks = (chromosome_size - out_count) / BLOCK_SIZE;
+        std::vector<bool> used_blocks(blocks, false);
+        // std::cout << "size = " << chromosome_size << ", blocks" << blocks
+        //           << "\n"; // DEBUG
+
+        // ? TODO count 3rd xor input?
+        size_t i;
+        for (i = chromosome_size - 1; i + 1 > 0; i--) {
+            if ((i >= chromosome_size - out_count || // if output
+                 (i % BLOCK_SIZE < BLOCK_IN_COUNT && // or if input
+                  used_blocks[i / BLOCK_SIZE])) &&   // of an active block,
+                chromosome[i] >= in_count) { // and connected to another block
+                used_block_count += used_blocks[chromosome[i] - in_count]
+                                        ? 0
+                                        : 1; // count if wasn't active before
+                used_blocks[chromosome[i] - in_count] = true;
+            }
+        }
+
+        std::cout << "used blocks " << used_block_count << "\n"; // DEBUG
         return used_block_count;
     }
 
