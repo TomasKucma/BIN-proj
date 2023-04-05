@@ -39,10 +39,8 @@ build/%.o: src/%.cpp
 	mkdir -p build
 	g++ $(CPP_FLAGS) -c -o $@ $<
 
-build/%.o: src/%.cpp src/%.hpp
-	mkdir -p build
-	g++ $(CPP_FLAGS) -c -o $@ $<
-
 $(PROJ_NAME): $(patsubst src/%.cpp,build/%.o, $(wildcard src/*.cpp))
 	mkdir -p build
 	g++ $(CPP_FLAGS) -o $@ $^
+
+build/cgp.o: src/cgp.hpp
