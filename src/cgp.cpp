@@ -32,6 +32,7 @@ const std::vector<std::vector<Bitmap>> EXPECTED_OUTS{
 // ? TODO export function to a new file
 
 constexpr size_t BLOCK_IN_COUNT = 3;
+constexpr size_t BLOCK_SIZE = BLOCK_IN_COUNT + 1;
 
 enum Function {
     XOR_00,
@@ -185,8 +186,7 @@ struct CGP {
           lambda{lambda},
           mutation_max_count{mutation_max_count}, bit_count{1UL << in_count},
           bitmap_count{std::max(bit_count / BITMAP_SIZE, 1UL)},
-          ins(generate_input()), chromosome_size{cols * rows *
-                                                     (BLOCK_IN_COUNT + 1) +
+          ins(generate_input()), chromosome_size{cols * rows * BLOCK_SIZE +
                                                  out_count},
           column_values(generate_column_values()),
           population(lambda + 1, Chromosome(chromosome_size)),
@@ -272,15 +272,15 @@ struct CGP {
         size_t mutate_count = (rand() % mutation_max_count) + 1;
         for (size_t j = 0; j < mutate_count; j++) {
             size_t i = rand() % chromosome_size;
-            size_t col = i / (rows * (BLOCK_IN_COUNT + 1));
+            size_t col = i / (rows * BLOCK_SIZE);
             // std::cout << "i=" << i << ", col=" << col << "\n"; // DEBUG
 
             if (i < chromosome_size - out_count) { // block mutation
                 chromosome[i] =
-                    (i % (BLOCK_IN_COUNT + 1)) < BLOCK_IN_COUNT
+                    (i % BLOCK_SIZE) < BLOCK_IN_COUNT
                         ? column_values[col][rand() % column_values[col].size()]
                         : rand() % FUNCTION_COUNT;
-                // std::cout << ((i % BLOCK_IN_COUNT + 1) < BLOCK_IN_COUNT
+                // std::cout << ((i % BLOCK_SIZE) < BLOCK_IN_COUNT
                 //                   ? "block"
                 //                   : "function")
                 //           << " thus " << chromosome[i] << "\n"; // DEBUG
