@@ -46,9 +46,10 @@ struct CGP {
     std::vector<std::vector<Bitmap>> generate_input();
     std::vector<std::vector<Gene>> generate_column_values();
 
-    CGP(size_t in_count, const std::vector<std::vector<Bitmap>> &expected_outs,
-        size_t cols, size_t rows, size_t l_back, size_t lambda,
-        size_t mutation_max_count)
+    CGP(size_t in_count = IN_COUNT,
+        const std::vector<std::vector<Bitmap>> &expected_outs = EXPECTED_OUTS,
+        size_t cols = COLS, size_t rows = ROWS, size_t l_back = L_BACK,
+        size_t lambda = LAMBDA, size_t mutation_max_count = MUTATION_MAX_COUNT)
         : in_count{in_count}, out_count{expected_outs.size()},
           expected_outs{expected_outs}, cols{cols}, rows{rows}, l_back{l_back},
           lambda{lambda},
