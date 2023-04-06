@@ -85,6 +85,7 @@ struct CGP {
         validate_parameters();
     };
 
+    void print_parameters();
     void print_chromosome(const Chromosome &chromosome);
     void print_fitness(const size_t &fitness);
     void print_population();

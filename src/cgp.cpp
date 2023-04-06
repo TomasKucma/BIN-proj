@@ -123,6 +123,12 @@ std::vector<std::vector<Gene>> CGP::generate_column_values() {
 
 // Output
 
+void CGP::print_parameters() {
+    std::cout << "Parameters: " << in_count << "," << out_count << ", " << cols
+              << "," << rows << ", " << lambda << "+1," << mutation_max_count
+              << ", " << BLOCK_IN_COUNT << "," << l_back << "\n";
+}
+
 void CGP::print_chromosome(const Chromosome &chromosome) {
     auto chrom_iter = chromosome.cbegin();
     // function blocks
@@ -298,6 +304,9 @@ void CGP::generate_new_population(const Chromosome &parent) {
 }
 
 const Chromosome &CGP::run_evolution(size_t iter_count) {
+    std::cout << "Params\n";
+    print_parameters();
+    std::cout << "\n";
     generate_default_population();
     // print_populationulation(); // DEBUG
 
