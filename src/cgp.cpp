@@ -300,7 +300,7 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
 }
 
 int main(int argc, char *argv[]) {
-    CGP cgp(IN_COUNT, EXPECTED_OUTS, COLS, ROWS, LBACK, LAMBDA,
+    CGP cgp(IN_COUNT, EXPECTED_OUTS, COLS, ROWS, L_BACK, LAMBDA,
             MUTATION_MAX_COUNT);
     auto best = cgp.run_evolution(ITERATION_COUNT);
     auto best_chromosome = std::get<const Chromosome &>(best);

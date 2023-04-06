@@ -11,7 +11,7 @@ constexpr size_t BLOCK_SIZE = BLOCK_IN_COUNT + 1;
 // default CGP parameters
 constexpr size_t COLS = 5;
 constexpr size_t ROWS = 5;
-constexpr size_t LBACK = 3;
+constexpr size_t L_BACK = 3;
 constexpr size_t LAMBDA = 10;
 constexpr size_t IN_COUNT = 7;
 constexpr size_t ITERATION_COUNT = 1000;
