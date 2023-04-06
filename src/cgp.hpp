@@ -1,12 +1,12 @@
-#include <cstdint>
+#include "function.hpp"
+#include "types.hpp"
 #include <tuple>
 #include <vector>
 
-using Gene = uint32_t;
-using Chromosome = std::vector<Gene>;
-using Bitmap = uint64_t;
+#ifndef CGP_HPP
+#define CGP_HPP
 
-constexpr size_t BITMAP_SIZE = sizeof(Bitmap) * 8;
+constexpr size_t BLOCK_SIZE = BLOCK_IN_COUNT + 1;
 
 // default CGP parameters
 constexpr size_t COLS = 5;
@@ -20,28 +20,6 @@ const std::vector<std::vector<Bitmap>> EXPECTED_OUTS{
     {0x00000000FFFF0000U, 0xFFFFFFFFFFFFFFFFU},
     {0x0000000000000000U, 0x0000000000000000U},
     {0x00000000FFFFFFFFU, 0x00000000FFFFFFFFU}};
-
-constexpr size_t BLOCK_IN_COUNT = 3;
-constexpr size_t BLOCK_SIZE = BLOCK_IN_COUNT + 1;
-
-enum Function {
-    XOR_00,
-    XOR_01,
-    XOR_10,
-    XOR_11,
-    MAJ_000,
-    MAJ_001,
-    MAJ_010,
-    MAJ_011,
-    MAJ_100,
-    MAJ_101,
-    MAJ_110,
-    MAJ_111,
-    FUNCTION_COUNT,
-};
-
-Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
-                         const Function &function);
 
 struct CGP {
     const size_t in_count;
@@ -100,3 +78,5 @@ struct CGP {
     void generate_new_population(const Chromosome &parent);
     std::tuple<size_t, const Chromosome &> run_evolution(size_t iter_count);
 };
+
+#endif // CGP_HPP
