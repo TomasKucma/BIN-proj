@@ -12,6 +12,8 @@ PROJ_NAME=cgp
 PACK_CONTENTS=Makefile src README.md doc
 PACK_NAME=BIN-$(AUTHOR).zip
 CPP_FLAGS=-std=c++14 -Wall -Werror -O2
+OBJS=$(patsubst src/%.cpp,build/%.o, $(wildcard src/*.cpp))
+DEPS=$(patsubst src/%.cpp,build/%.d, $(wildcard src/*.cpp))
 
 
 # Phony targets
@@ -35,12 +37,17 @@ pack:
 
 # Build targets
 
-build/%.o: src/%.cpp
+include $(DEPS)
+
+build/:
 	mkdir -p build
+
+build/%.d: src/%.cpp build/
+	g++ -MM -MQ $(@:.d=.o) -MF $@ $<
+
+build/%.o: src/%.cpp build/
 	g++ $(CPP_FLAGS) -c -o $@ $<
 
-$(PROJ_NAME): $(patsubst src/%.cpp,build/%.o, $(wildcard src/*.cpp))
+$(PROJ_NAME): $(OBJS)
 	mkdir -p build
 	g++ $(CPP_FLAGS) -o $@ $^
-
-build/cgp.o: src/cgp.hpp
