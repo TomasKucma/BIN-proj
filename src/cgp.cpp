@@ -9,6 +9,7 @@
 #include "cgp.hpp"
 #include <exception>
 #include <iostream>
+#include <tuple>
 #include <vector>
 
 // ? TODO separate function from the rest
@@ -146,15 +147,14 @@ void CGP::print_chromosome(const Chromosome &chromosome) {
     for (size_t j = 0; j < out_count; j++, chrom_iter++) {
         std::cout << *chrom_iter << " ";
     }
-    std::cout << "\n";
 }
 
 void CGP::print_fitness(const size_t &fitness) {
     if (max_fitness <= fitness) {
         std::cout << max_fitness << "/" << max_fitness << " (unused blocks "
-                  << fitness - max_fitness << "/" << block_count << ")\n";
+                  << fitness - max_fitness << "/" << block_count << ")";
     } else {
-        std::cout << fitness << "/" << max_fitness << "\n";
+        std::cout << fitness << "/" << max_fitness;
     }
 }
 
@@ -247,7 +247,8 @@ void CGP::mutate(Chromosome &chromosome) {
     }
 }
 
-const Chromosome &CGP::get_best_chromosome(const Chromosome *const parent_ptr) {
+std::tuple<size_t, const Chromosome &>
+CGP::get_best_chromosome(const Chromosome *const parent_ptr) {
     auto best_chromosome = population.begin();
     size_t best_fitness = get_fitness(*best_chromosome);
     // std::cout << "default best is "
@@ -268,7 +269,7 @@ const Chromosome &CGP::get_best_chromosome(const Chromosome *const parent_ptr) {
             //     std::cout << "parent\n";
         }
     }
-    return *best_chromosome;
+    return std::tie(best_fitness, *best_chromosome);
 }
 
 void CGP::generate_default_population() {
@@ -303,20 +304,31 @@ void CGP::generate_new_population(const Chromosome &parent) {
     }
 }
 
-const Chromosome &CGP::run_evolution(size_t iter_count) {
+std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
     std::cout << "Params\n";
     print_parameters();
     std::cout << "\n";
     generate_default_population();
-    // print_populationulation(); // DEBUG
+    // print_population(); // DEBUG
+    // std::cout << "\n";  // DEBUG
 
-    const Chromosome *parent = nullptr;
-    for (size_t i = 0; i < iter_count; i++) {
-        parent = &get_best_chromosome(parent);
-        std::cout << "Parent fitness ";      // DEBUG
-        print_fitness(get_fitness(*parent)); // DEBUG
-        generate_new_population(*parent);
-        // print_populationulation(); // DEBUG
+    const Chromosome *parent_ptr = nullptr;
+    size_t parent_fitness = 0;
+    for (size_t generation = 0; generation < iter_count; generation++) {
+        auto best = get_best_chromosome(parent_ptr);
+        if (parent_ptr && std::get<size_t>(best) > parent_fitness) {
+            std::cout << "Generation " << generation << "\n";
+            std::cout << "Parent chromosome:\n"; // DEBUG
+            print_chromosome(*parent_ptr);       // DEBUG
+            std::cout << "\nParent fitness ";    // DEBUG
+            print_fitness(parent_fitness);       // DEBUG
+            std::cout << "\n\n";                 // DEBUG
+        }
+        parent_ptr = &std::get<const Chromosome &>(best);
+        parent_fitness = std::get<size_t>(best);
+        generate_new_population(*parent_ptr);
+        // print_population(); // DEBUG
+        // std::cout << "\n"; // DEBUG
     }
     return get_best_chromosome();
 }
@@ -324,9 +336,13 @@ const Chromosome &CGP::run_evolution(size_t iter_count) {
 int main(int argc, char *argv[]) {
     CGP cgp(IN_COUNT, EXPECTED_OUTS, COLS, ROWS, LBACK, LAMBDA,
             MUTATION_MAX_COUNT);
-    const Chromosome &best_chromosome = cgp.run_evolution(ITERATION_COUNT);
-    cgp.print_chromosome(best_chromosome);
-    std::cout << "Best fitness ";                        // DEBUG
-    cgp.print_fitness(cgp.get_fitness(best_chromosome)); // DEBUG
+    auto best = cgp.run_evolution(ITERATION_COUNT);
+    auto best_chromosome = std::get<const Chromosome &>(best);
+    auto best_fitness = std::get<size_t>(best);
+    std::cout << "Best chromosome:\n";     // DEBUG
+    cgp.print_chromosome(best_chromosome); // DEBUG
+    std::cout << "\nBest fitness ";        // DEBUG
+    cgp.print_fitness(best_fitness);       // DEBUG
+    std::cout << "\n\n";                   // DEBUG
     return 0;
 }

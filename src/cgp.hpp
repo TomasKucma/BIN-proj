@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <tuple>
 #include <vector>
 
 using Gene = uint32_t;
@@ -93,9 +94,9 @@ struct CGP {
     size_t get_used_block_count(const Chromosome &chromosome);
     size_t get_fitness(const Chromosome &chromosome);
     void mutate(Chromosome &chromosome);
-    const Chromosome &
+    std::tuple<size_t, const Chromosome &>
     get_best_chromosome(const Chromosome *const parent_ptr = nullptr);
     void generate_default_population();
     void generate_new_population(const Chromosome &parent);
-    const Chromosome &run_evolution(size_t iter_count);
+    std::tuple<size_t, const Chromosome &> run_evolution(size_t iter_count);
 };
