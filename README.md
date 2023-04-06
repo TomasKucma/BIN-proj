@@ -3,7 +3,7 @@
 
  - Author: Tomáš Kučma (xkucma00)
  - Year: 2022/2023
- - Langauge: C++ (...)
+ - Requirements: C++ (c++14)
 
 ## Project structure
 

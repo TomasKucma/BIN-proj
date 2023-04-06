@@ -11,7 +11,7 @@ AUTHOR=xkucma00
 PROJ_NAME=cgp
 PACK_CONTENTS=Makefile src README.md doc
 PACK_NAME=BIN-$(AUTHOR).zip
-CPP_FLAGS=-Wall -Werror -O2
+CPP_FLAGS=-std=c++14 -Wall -Werror -O2
 
 
 # Phony targets
