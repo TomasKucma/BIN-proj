@@ -42,12 +42,11 @@ include $(DEPS)
 build/:
 	mkdir -p build
 
-build/%.d: src/%.cpp build/
-	g++ -MM -MQ $(@:.d=.o) -MF $@ $<
+build/%.d: src/%.cpp | build/
+	g++ -MM -MQ $@ -MQ $(@:.d=.o) -MF $@ $<
 
-build/%.o: src/%.cpp build/
+build/%.o: src/%.cpp | build/
 	g++ $(CPP_FLAGS) -c -o $@ $<
 
 $(PROJ_NAME): $(OBJS)
-	mkdir -p build
 	g++ $(CPP_FLAGS) -o $@ $^
