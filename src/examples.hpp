@@ -5,6 +5,9 @@
  * Description: Contains examples of CGP configurations for various circuits
  */
 
+#ifndef EXAMPLES_HPP
+#define EXAMPLES_HPP
+
 #include "cgp.hpp"
 
 const std::vector<std::vector<Bitmap>> ADDER_2b_EXPECTED_OUTS{
@@ -14,3 +17,5 @@ const std::vector<std::vector<Bitmap>> ADDER_2b_EXPECTED_OUTS{
 };
 const size_t ADDER_2b_ITERATION_COUNT = 100000;
 const CGP ADDER_2B(4, ADDER_2b_EXPECTED_OUTS, 8, 8, 5, 10, 10);
+
+#endif // EXAMPLES_HPP

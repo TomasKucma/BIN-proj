@@ -6,10 +6,10 @@
  *  for function blocks
  */
 
-#include "types.hpp"
-
 #ifndef FUNCTION_HPP
 #define FUNCTION_HPP
+
+#include "types.hpp"
 
 constexpr size_t BLOCK_IN_COUNT = 3;
 

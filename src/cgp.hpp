@@ -6,13 +6,13 @@
  *  Programming
  */
 
+#ifndef CGP_HPP
+#define CGP_HPP
+
 #include "function.hpp"
 #include "types.hpp"
 #include <tuple>
 #include <vector>
-
-#ifndef CGP_HPP
-#define CGP_HPP
 
 constexpr size_t BLOCK_SIZE = BLOCK_IN_COUNT + 1;
 
