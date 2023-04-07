@@ -13,7 +13,6 @@
 #include <tuple>
 #include <vector>
 
-// Initialization
 
 void CGP::validate_parameters() {
     if (!in_count) {
@@ -88,8 +87,6 @@ std::vector<std::vector<Gene>> CGP::generate_column_values() {
     return column_values;
 }
 
-// Output
-
 void CGP::print_parameters() {
     std::cout << "Parameters: " << in_count << "," << out_count << ", " << cols
               << "," << rows << ", " << lambda << "+1," << mutation_max_count
@@ -129,8 +126,6 @@ void CGP::print_population() {
         print_chromosome(chromosome);
     }
 }
-
-// Evolution
 
 size_t CGP::get_used_block_count(const Chromosome &chromosome) {
     size_t used_block_count = 0;
@@ -243,7 +238,7 @@ void CGP::generate_default_population() {
         auto gene_iter = chromosome.begin();
         // function blocks
         for (size_t j = 0; j < block_count; j++, gene_iter++) {
-            size_t col = (j / cols);
+            size_t col = (j / rows);
             // inputs
             for (size_t k = 0; k < BLOCK_IN_COUNT; k++, gene_iter++) {
                 *gene_iter =
@@ -278,20 +273,20 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
     // print_population(); // DEBUG
     // std::cout << "\n";  // DEBUG
 
-    const Chromosome *parent_ptr = nullptr;
     size_t parent_fitness = 0;
+    const Chromosome *parent_ptr = nullptr;
     for (size_t generation = 0; generation < iter_count; generation++) {
-        auto best = get_best_chromosome(parent_ptr);
-        if (parent_ptr && std::get<size_t>(best) > parent_fitness) {
+        auto [new_fitness, new_parent] = get_best_chromosome(parent_ptr);
+        if (new_fitness > parent_fitness) {
             std::cout << "Generation " << generation << "\n";
             std::cout << "Parent chromosome:\n"; // DEBUG
-            print_chromosome(*parent_ptr);       // DEBUG
+            print_chromosome(new_parent);        // DEBUG
             std::cout << "\nParent fitness ";    // DEBUG
-            print_fitness(parent_fitness);       // DEBUG
+            print_fitness(new_fitness);          // DEBUG
             std::cout << "\n\n";                 // DEBUG
         }
-        parent_ptr = &std::get<const Chromosome &>(best);
-        parent_fitness = std::get<size_t>(best);
+        parent_fitness = new_fitness;
+        parent_ptr = &new_parent;
         generate_new_population(*parent_ptr);
         // print_population(); // DEBUG
         // std::cout << "\n"; // DEBUG

@@ -22,6 +22,8 @@ const std::vector<std::vector<Bitmap>> EXPECTED_OUTS{
     {0x00000000FFFFFFFFU, 0x00000000FFFFFFFFU}};
 
 struct CGP {
+    // Parameters
+
     const size_t in_count;
     const size_t out_count;
     const std::vector<std::vector<Bitmap>> &expected_outs;
@@ -31,16 +33,19 @@ struct CGP {
     const size_t lambda;
     const size_t mutation_max_count;
 
+    // Internal data
+
     const size_t bit_count;
     const size_t bitmap_count;
     const size_t max_fitness;
     std::vector<std::vector<Bitmap>> ins;
-
     const size_t block_count;
     const size_t chromosome_size;
     std::vector<std::vector<Gene>> column_values;
     std::vector<Chromosome> population;
     std::vector<Bitmap> current_values;
+
+    // Initialization
 
     void validate_parameters();
     std::vector<std::vector<Bitmap>> generate_input();
@@ -65,10 +70,14 @@ struct CGP {
         validate_parameters();
     };
 
+    // Output
+
     void print_parameters();
     void print_chromosome(const Chromosome &chromosome);
     void print_fitness(const size_t &fitness);
     void print_population();
+
+    // Evolution
 
     size_t get_used_block_count(const Chromosome &chromosome);
     size_t get_fitness(const Chromosome &chromosome);
