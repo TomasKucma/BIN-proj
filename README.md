@@ -9,9 +9,11 @@
 
  - `Makefile` - provides targets for building (`build`), running (`run`), cleaning the build and pack output (`clean`), and packing into a zip file (`pack`)
  - `src` - contains source files, specifically:
+   - `main.cpp` - contains `main` of the program
    - `cgp.cpp`, `cgp.hpp` - contains implementation of Caretsian Genetic Programming (CGP) algorithm utilizing XOR and Majority function blocks
    - `function.cpp`, `function.hpp` - contains implementation of XOR and Majority blocks
-   - `types.cpp` - contains defintion of types used in CGP
+   - `types.hpp` - contains defintion of types used in CGP
+   - `examples.hpp` - Contains examples of CGP configurations for various circuits
  - `cgp` - project binary, created using `make build` command
  - `build` - temporary folder created when building the binary
 
