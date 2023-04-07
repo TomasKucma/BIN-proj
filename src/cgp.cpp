@@ -13,7 +13,6 @@
 #include <tuple>
 #include <vector>
 
-
 void CGP::validate_parameters() {
     if (!in_count) {
         throw std::invalid_argument("Input count 0\n");
@@ -88,28 +87,29 @@ std::vector<std::vector<Gene>> CGP::generate_column_values() {
 }
 
 void CGP::print_parameters() {
-    std::cout << "Parameters: " << in_count << "," << out_count << ", " << cols
-              << "," << rows << ", " << lambda << "+1," << mutation_max_count
-              << ", " << BLOCK_IN_COUNT << "," << l_back << "\n";
+    std::cout << "Parameters: (" << in_count << "," << out_count << ", " << cols
+              << "," << rows << ", " << BLOCK_IN_COUNT << "," << l_back << ", "
+              << lambda << "+1," << mutation_max_count << ")\n";
 }
 
 void CGP::print_chromosome(const Chromosome &chromosome) {
     auto chrom_iter = chromosome.cbegin();
     // function blocks
     for (size_t j = 0; j < block_count; j++, chrom_iter++) {
-        std::cout << "{";
+        std::cout << "([" << j + in_count << "],";
         // inputs
         for (size_t k = 0; k < BLOCK_IN_COUNT; k++, chrom_iter++) {
             std::cout << *chrom_iter << ",";
         }
         // function
-        std::cout << *chrom_iter << "}";
+        std::cout << *chrom_iter << ")";
     }
-    std::cout << " ";
+    std::cout << "(";
     // output
     for (size_t j = 0; j < out_count; j++, chrom_iter++) {
-        std::cout << *chrom_iter << " ";
+        std::cout << (j ? "," : "") << *chrom_iter;
     }
+    std::cout << ")";
 }
 
 void CGP::print_fitness(const size_t &fitness) {
@@ -299,6 +299,7 @@ int main(int argc, char *argv[]) {
     auto best = cgp.run_evolution(ITERATION_COUNT);
     auto best_chromosome = std::get<const Chromosome &>(best);
     auto best_fitness = std::get<size_t>(best);
+    cgp.print_parameters();
     std::cout << "Best chromosome:\n";     // DEBUG
     cgp.print_chromosome(best_chromosome); // DEBUG
     std::cout << "\nBest fitness ";        // DEBUG
