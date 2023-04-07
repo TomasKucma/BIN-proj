@@ -1,3 +1,11 @@
+/**
+ * Project: BIN project
+ * Author: Tomáš Kučma
+ * Year: 2022/2023
+ * Description: Contains definition of structure used for Caretsian Genetic
+ *  Programming
+ */
+
 #include "function.hpp"
 #include "types.hpp"
 #include <tuple>

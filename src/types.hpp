@@ -1,3 +1,10 @@
+/**
+ * Project: BIN project
+ * Author: Tomáš Kučma
+ * Year: 2022/2023
+ * Description: Contains definition of basic types used in this project
+ */
+
 #include <cstdint>
 #include <vector>
 

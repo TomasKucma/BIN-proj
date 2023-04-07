@@ -1,3 +1,10 @@
+/**
+ * Project: BIN project
+ * Author: Tomáš Kučma
+ * Year: 2022/2023
+ * Description: Contains implementation of functions used for function blocks
+ */
+
 #include "function.hpp"
 #include <stdexcept>
 #include <string>

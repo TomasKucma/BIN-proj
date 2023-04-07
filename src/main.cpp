@@ -1,3 +1,9 @@
+/**
+ * Project: BIN project
+ * Author: Tomáš Kučma
+ * Year: 2022/2023
+ * Description: Contains implementation of this project's main
+ */
 
 #include "examples.hpp"
 #include <iostream>

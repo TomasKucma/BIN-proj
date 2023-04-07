@@ -1,3 +1,10 @@
+/**
+ * Project: BIN project
+ * Author: Tomáš Kučma
+ * Year: 2022/2023
+ * Description: Contains examples of CGP configurations for various circuits
+ */
+
 #include "cgp.hpp"
 
 const std::vector<std::vector<Bitmap>> ADDER_2b_EXPECTED_OUTS{

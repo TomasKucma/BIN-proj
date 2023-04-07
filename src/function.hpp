@@ -1,3 +1,11 @@
+/**
+ * Project: BIN project
+ * Author: Tomáš Kučma
+ * Year: 2022/2023
+ * Description: Contains definition of types and declaration of functions used
+ *  for function blocks
+ */
+
 #include "types.hpp"
 
 #ifndef FUNCTION_HPP
