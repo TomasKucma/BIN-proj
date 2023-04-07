@@ -1,9 +1,11 @@
 #!/usr/bin/make -f
 
+###
 # BIN project - Návrh kombinačních obvodů reprezentovaných pomocí XOR-Majority 
 #  Inverter Graph
 # Author: Tomáš Kučma (xkucma00)
 # Year: 2022/2023
+###
 
 # Variable declarations
 

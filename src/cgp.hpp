@@ -30,6 +30,7 @@ const std::vector<std::vector<Bitmap>> EXPECTED_OUTS{
     {0x00000000FFFFFFFFU, 0x00000000FFFFFFFFU}};
 
 struct CGP {
+
     // Parameters
 
     const size_t in_count;
