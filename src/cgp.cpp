@@ -46,22 +46,22 @@ void CGP::validate_parameters() {
 }
 
 std::vector<std::vector<Bitmap>> CGP::generate_input() {
-    std::vector<std::vector<Bitmap>> ins(in_count);
+    std::vector<std::vector<Bitmap>> ins(in_count,
+                                         std::vector<Bitmap>(bitmap_count));
     for (size_t i = 0; i < in_count; i++) {
-        ins[i].resize(bitmap_count);
         const size_t bit_seq_len = (bit_count >> (i + 1));
         const size_t seq_len = bit_seq_len / BITMAP_SIZE;
         Bitmap input = 0;
-        if (seq_len == 0) {
+        if (seq_len > 0) {
+            for (size_t j = 0; j < ins[i].size(); j++) {
+                ins[i][j] = ((j / seq_len) % 2 == 0) ? input : ~input;
+            }
+        } else {
             for (size_t j = 0; j < BITMAP_SIZE / bit_seq_len; j++) {
                 input = ~(~(input << bit_seq_len) << bit_seq_len);
             }
             for (size_t j = 0; j < ins[i].size(); j++) {
                 ins[i][j] = input;
-            }
-        } else {
-            for (size_t j = 0; j < ins[i].size(); j++) {
-                ins[i][j] = ((j / seq_len) % 2 == 0) ? input : ~input;
             }
         }
     }
