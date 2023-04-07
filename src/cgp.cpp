@@ -293,17 +293,3 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
     }
     return get_best_chromosome();
 }
-
-int main(int argc, char *argv[]) {
-    CGP cgp; // default parameters
-    auto best = cgp.run_evolution(ITERATION_COUNT);
-    auto best_chromosome = std::get<const Chromosome &>(best);
-    auto best_fitness = std::get<size_t>(best);
-    cgp.print_parameters();
-    std::cout << "Best chromosome:\n";     // DEBUG
-    cgp.print_chromosome(best_chromosome); // DEBUG
-    std::cout << "\nBest fitness ";        // DEBUG
-    cgp.print_fitness(best_fitness);       // DEBUG
-    std::cout << "\n\n";                   // DEBUG
-    return 0;
-}
