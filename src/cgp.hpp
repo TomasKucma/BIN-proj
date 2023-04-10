@@ -11,6 +11,7 @@
 
 #include "function.hpp"
 #include "types.hpp"
+#include <ostream>
 #include <tuple>
 #include <vector>
 
@@ -81,10 +82,10 @@ struct CGP {
 
     // Output
 
-    void print_parameters();
-    void print_chromosome(const Chromosome &chromosome);
-    void print_fitness(const size_t &fitness);
-    void print_population();
+    std::ostream &print_parameters();
+    std::ostream &print_chromosome(const Chromosome &chromosome);
+    std::ostream &print_fitness(const size_t &fitness);
+    std::ostream &print_population();
 
     // Evolution
 

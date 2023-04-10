@@ -86,13 +86,14 @@ std::vector<std::vector<Gene>> CGP::generate_col_values() {
     return col_values;
 }
 
-void CGP::print_parameters() {
+std::ostream &CGP::print_parameters() {
     std::cout << "Parameters: (" << in_count << "," << out_count << ", " << cols
               << "," << rows << ", " << BLOCK_IN_COUNT << "," << l_back << ", "
-              << lambda << "+1," << mutation_max_count << ")\n";
+              << lambda << "+1," << mutation_max_count << ")";
+    return std::cout;
 }
 
-void CGP::print_chromosome(const Chromosome &chromosome) {
+std::ostream &CGP::print_chromosome(const Chromosome &chromosome) {
     auto chrom_iter = chromosome.cbegin();
     // function blocks
     for (size_t j = 0; j < block_count; j++, chrom_iter++) {
@@ -110,21 +111,24 @@ void CGP::print_chromosome(const Chromosome &chromosome) {
         std::cout << (j ? "," : "") << *chrom_iter;
     }
     std::cout << ")";
+    return std::cout;
 }
 
-void CGP::print_fitness(const size_t &fitness) {
+std::ostream &CGP::print_fitness(const size_t &fitness) {
     if (max_fitness <= fitness) {
         std::cout << max_fitness << "/" << max_fitness << " (unused blocks "
                   << fitness - max_fitness << "/" << block_count << ")";
     } else {
         std::cout << fitness << "/" << max_fitness;
     }
+    return std::cout;
 }
 
-void CGP::print_population() {
+std::ostream &CGP::print_population() {
     for (const auto &chromosome : population) {
-        print_chromosome(chromosome);
+        print_chromosome(chromosome) << "\n";
     }
+    return std::cout;
 }
 
 size_t CGP::get_used_block_count(const Chromosome &chromosome) {
@@ -266,12 +270,9 @@ void CGP::generate_new_population(const Chromosome &parent) {
 }
 
 std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
-    std::cout << "Params\n";
-    print_parameters();
-    std::cout << "\n";
+    print_parameters() << "\n\n";
     generate_default_population();
-    // print_population(); // DEBUG
-    // std::cout << "\n";  // DEBUG
+    // print_population() << "\n";  // DEBUG
 
     size_t parent_fitness = 0;
     const Chromosome *parent_ptr = nullptr;
@@ -279,17 +280,15 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
         auto [new_fitness, new_parent] = get_best_chromosome(parent_ptr);
         if (new_fitness > parent_fitness) {
             std::cout << "Generation " << generation << "\n";
-            std::cout << "Parent chromosome:\n"; // DEBUG
-            print_chromosome(new_parent);        // DEBUG
-            std::cout << "\nParent fitness ";    // DEBUG
-            print_fitness(new_fitness);          // DEBUG
-            std::cout << "\n\n";                 // DEBUG
+            std::cout << "Parent chromosome:\n";  // DEBUG
+            print_chromosome(new_parent) << "\n"; // DEBUG
+            std::cout << "Parent fitness ";       // DEBUG
+            print_fitness(new_fitness) << "\n\n"; // DEBUG
         }
         parent_fitness = new_fitness;
         parent_ptr = &new_parent;
         generate_new_population(*parent_ptr);
-        // print_population(); // DEBUG
-        // std::cout << "\n"; // DEBUG
+        // print_population() << "\n"; // DEBUG
     }
     return get_best_chromosome();
 }

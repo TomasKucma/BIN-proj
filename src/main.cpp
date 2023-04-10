@@ -12,12 +12,10 @@ void test_cgp(CGP cgp, const size_t iteration_count) {
     auto best = cgp.run_evolution(ADDER_2b_ITERATION_COUNT);
     auto best_chromosome = std::get<const Chromosome &>(best);
     auto best_fitness = std::get<size_t>(best);
-    cgp.print_parameters();                // DEBUG
-    std::cout << "Best chromosome:\n";     // DEBUG
-    cgp.print_chromosome(best_chromosome); // DEBUG
-    std::cout << "\nBest fitness ";        // DEBUG
-    cgp.print_fitness(best_fitness);       // DEBUG
-    std::cout << "\n\n";                   // DEBUG
+    std::cout << "Best chromosome:\n";             // DEBUG
+    cgp.print_chromosome(best_chromosome) << "\n"; // DEBUG
+    std::cout << "Best fitness ";                  // DEBUG
+    cgp.print_fitness(best_fitness) << "\n\n\n";   // DEBUG
 }
 
 int main(int argc, char *argv[]) {
