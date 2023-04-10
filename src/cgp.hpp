@@ -50,7 +50,7 @@ struct CGP {
     std::vector<std::vector<Bitmap>> ins;
     const size_t block_count;
     const size_t chromosome_size;
-    std::vector<std::vector<Gene>> column_values;
+    std::vector<std::vector<Gene>> col_values;
     std::vector<Chromosome> population;
     std::vector<Bitmap> current_values;
 
@@ -58,7 +58,7 @@ struct CGP {
 
     void validate_parameters();
     std::vector<std::vector<Bitmap>> generate_input();
-    std::vector<std::vector<Gene>> generate_column_values();
+    std::vector<std::vector<Gene>> generate_col_values();
 
     CGP(size_t in_count = IN_COUNT,
         const std::vector<std::vector<Bitmap>> &expected_outs = EXPECTED_OUTS,
@@ -72,7 +72,7 @@ struct CGP {
           max_fitness{out_count * bit_count},
           ins(generate_input()), block_count{cols * rows},
           chromosome_size{block_count * BLOCK_SIZE + out_count},
-          column_values(generate_column_values()),
+          col_values(generate_col_values()),
           population(lambda + 1, Chromosome(chromosome_size)),
           current_values(in_count + block_count) {
 

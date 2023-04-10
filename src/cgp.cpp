@@ -67,15 +67,15 @@ std::vector<std::vector<Bitmap>> CGP::generate_input() {
     return ins;
 }
 
-std::vector<std::vector<Gene>> CGP::generate_column_values() {
-    std::vector<std::vector<Gene>> column_values(cols);
+std::vector<std::vector<Gene>> CGP::generate_col_values() {
+    std::vector<std::vector<Gene>> col_values(cols);
     for (size_t col = 0; col < cols; col++) {
         size_t minidx = std::max(rows * (col - l_back) + in_count, in_count);
         size_t maxidx = col * rows + in_count;
 
-        column_values[col].resize(in_count + maxidx - minidx);
+        col_values[col].resize(in_count + maxidx - minidx);
 
-        auto vals_iter = column_values[col].begin();
+        auto vals_iter = col_values[col].begin();
         for (size_t k = 0; k < in_count; k++, vals_iter++) {
             *vals_iter = k;
         }
@@ -83,7 +83,7 @@ std::vector<std::vector<Gene>> CGP::generate_column_values() {
             *vals_iter = k;
         }
     }
-    return column_values;
+    return col_values;
 }
 
 void CGP::print_parameters() {
@@ -196,7 +196,7 @@ void CGP::mutate(Chromosome &chromosome) {
         if (i < chromosome_size - out_count) { // block mutation
             chromosome[i] =
                 (i % BLOCK_SIZE) < BLOCK_IN_COUNT
-                    ? column_values[col][rand() % column_values[col].size()]
+                    ? col_values[col][rand() % col_values[col].size()]
                     : rand() % FUNCTION_COUNT;
             // std::cout << ((i % BLOCK_SIZE) < BLOCK_IN_COUNT
             //                   ? "block"
@@ -242,7 +242,7 @@ void CGP::generate_default_population() {
             // inputs
             for (size_t k = 0; k < BLOCK_IN_COUNT; k++, gene_iter++) {
                 *gene_iter =
-                    column_values[col][(rand() % (column_values[col].size()))];
+                    col_values[col][(rand() % (col_values[col].size()))];
             }
             // function
             *gene_iter = rand() % FUNCTION_COUNT;
