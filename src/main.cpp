@@ -9,7 +9,7 @@
 #include <iostream>
 
 int main(int argc, char *argv[]) {
-    CGP cgp(ADDER_2B);
+    CGP cgp(ADDER_2b);
     auto best = cgp.run_evolution(ADDER_2b_ITERATION_COUNT);
     auto best_chromosome = std::get<const Chromosome &>(best);
     auto best_fitness = std::get<size_t>(best);

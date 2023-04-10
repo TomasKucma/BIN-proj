@@ -16,6 +16,6 @@ const std::vector<std::vector<Bitmap>> ADDER_2b_EXPECTED_OUTS{
     {0b0000000100110111U}, // out 2
 };
 const size_t ADDER_2b_ITERATION_COUNT = 100000;
-const CGP ADDER_2B(4, ADDER_2b_EXPECTED_OUTS, 8, 8, 5, 10, 10);
+const CGP ADDER_2b(4, ADDER_2b_EXPECTED_OUTS, 8, 8, 5, 10, 10);
 
 #endif // EXAMPLES_HPP
