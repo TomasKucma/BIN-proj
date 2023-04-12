@@ -13,7 +13,7 @@ AUTHOR=xkucma00
 PROJ_NAME=cgp
 PACK_CONTENTS=Makefile src README.md doc
 PACK_NAME=BIN-$(AUTHOR).zip
-CPP_FLAGS=-std=c++17 -Wall -Werror -O2
+CPP_FLAGS=-std=c++20 -Wall -Werror -O2
 OBJS=$(patsubst src/%.cpp,build/%.o, $(wildcard src/*.cpp))
 DEPS=$(patsubst src/%.cpp,build/%.d, $(wildcard src/*.cpp))
 

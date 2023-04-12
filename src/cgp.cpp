@@ -8,6 +8,7 @@
 
 #include "cgp.hpp"
 #include "function.hpp"
+#include <bit>
 #include <iostream>
 #include <stdexcept>
 #include <tuple>
@@ -177,9 +178,7 @@ size_t CGP::get_fitness(const Chromosome &chromosome) {
             if (bit_count < BITMAP_SIZE) { // mask out ignored bits
                 bit_match &= (1UL << bit_count) - 1;
             }
-            for (; bit_match; bit_match = bit_match >> 1) {
-                fitness += (bit_match & 1);
-            }
+            fitness += std::popcount(bit_match);
         }
     }
     // if perfect fitness, take block usage into account

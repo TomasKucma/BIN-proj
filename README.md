@@ -3,7 +3,7 @@
 
  - Author: Tomáš Kučma (xkucma00)
  - Year: 2022/2023
- - Requirements: C++ (C++17)
+ - Requirements: C++ (C++20), g++
 
 ## Project structure
 
@@ -20,7 +20,6 @@
 ## TODO
 
   - ? exclude 3rd input for XOR blocks when counting number of used blocks
-  - ? add small look-up for bit-to-fitness conversions
   - ? reorder bits in inputs/outputs
   - clean-up output and remove (or move into macro) debug
   - documentation with statistical evaluation
