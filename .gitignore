@@ -2,3 +2,4 @@
 /.vscode
 /build
 /BIN-xkucma00.zip
+*.tmp
