@@ -6,8 +6,6 @@
  */
 
 #include "function.hpp"
-#include <stdexcept>
-#include <string>
 
 Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
                          const Function &function) {
@@ -37,7 +35,6 @@ Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
     case MAJ_111:
         return (x & y) ^ (x & z) ^ (y & z);
     default:
-        throw std::invalid_argument(std::string{"Invalid function block "} +
-                                    std::to_string(function));
+        throw FunctionError(function);
     }
 }

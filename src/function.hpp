@@ -10,6 +10,8 @@
 #define FUNCTION_HPP
 
 #include "types.hpp"
+#include <stdexcept>
+#include <string>
 
 constexpr size_t BLOCK_IN_COUNT = 3;
 
@@ -27,6 +29,13 @@ enum Function {
     MAJ_110,
     MAJ_111,
     FUNCTION_COUNT,
+};
+
+class FunctionError : public std::invalid_argument {
+  public:
+    FunctionError(const Function &function)
+        : std::invalid_argument(std::string{"Invalid function block "} +
+                                std::to_string(function)){};
 };
 
 Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
