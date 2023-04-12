@@ -19,7 +19,6 @@
 
 ## TODO
 
-  - ? exclude 3rd input for XOR blocks when counting number of used blocks
   - ? reorder bits in inputs/outputs
   - clean-up output and remove (or move into macro) debug
   - documentation with statistical evaluation

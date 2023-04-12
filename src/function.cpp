@@ -7,6 +7,16 @@
 
 #include "function.hpp"
 
+size_t function_in_count(const Function &function) {
+    if (XOR_00 <= function && function <= XOR_11) {
+        return 2;
+    } else if (MAJ_000 <= function && function <= MAJ_111) {
+        return 3;
+    } else {
+        throw FunctionError(function);
+    }
+}
+
 Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
                          const Function &function) {
     switch (function) {

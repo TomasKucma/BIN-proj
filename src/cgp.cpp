@@ -138,13 +138,14 @@ size_t CGP::get_used_block_count(const Chromosome &chromosome) {
     // std::cout << "size = " << chromosome_size << ", blocks" << blocks
     //           << "\n"; // DEBUG
 
-    // ? TODO count 3rd xor input?
     size_t i;
     for (i = chromosome_size - 1; i + 1 > 0; i--) {
-        if ((i >= chromosome_size - out_count || // if output
-             (i % BLOCK_SIZE < BLOCK_IN_COUNT && // or if input
-              used_blocks[i / BLOCK_SIZE])) &&   // of an active block,
-            chromosome[i] >= in_count) { // and connected to another block:
+        if ((i >= chromosome_size - out_count || // if output,
+             (used_blocks[i / BLOCK_SIZE] &&     // or if active block
+              i % BLOCK_SIZE <                   // and is input,
+                  function_in_count(static_cast<Function>(
+                      chromosome[i - i % BLOCK_SIZE + BLOCK_IN_COUNT])))) &&
+            chromosome[i] >= in_count) { // then if connected to another block:
             auto block = used_blocks[chromosome[i] - in_count]; // reference
             used_block_count += !block; // count if wasn't active before
             block = true;

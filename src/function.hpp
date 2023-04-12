@@ -38,6 +38,8 @@ class FunctionError : public std::invalid_argument {
                                 std::to_string(function)){};
 };
 
+size_t function_in_count(const Function &function);
+
 Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
                          const Function &function);
 
