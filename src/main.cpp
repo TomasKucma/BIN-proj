@@ -25,5 +25,7 @@ int main(int argc, char *argv[]) {
     test_cgp(MEDIAN_7, MEDIAN_7_ITERATION_COUNT);
     std::cout << "CGP for 5 input parity:\n\n"; // DEBUG
     test_cgp(PARITY_5, PARITY_5_ITERATION_COUNT);
+    std::cout << "CGP for 2bit input multiplier:\n\n"; // DEBUG
+    test_cgp(MULT_2b, MULT_2b_ITERATION_COUNT);
     return 0;
 }

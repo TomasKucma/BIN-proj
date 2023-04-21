@@ -38,4 +38,15 @@ const std::vector<std::vector<Bitmap>> PARITY_5_EXPECTED_OUTS{
 const size_t PARITY_5_ITERATION_COUNT = 2e4;
 const CGP PARITY_5(5, PARITY_5_EXPECTED_OUTS, 3, 2, 1, 5, 4);
 
+// Multiplier with 2b inputs
+
+const std::vector<std::vector<Bitmap>> MULT_2b_EXPECTED_OUTS{
+    {0b0000010100000101}, // out 0
+    {0b0000001101010110}, // out 1
+    {0b0000000000110010}, // out 2
+    {0b0000000000000001}, // out 3
+};
+const size_t MULT_2b_ITERATION_COUNT = 2e5;
+const CGP MULT_2b(6, MULT_2b_EXPECTED_OUTS, 7, 5, 4, 10, 10);
+
 #endif // EXAMPLES_HPP
