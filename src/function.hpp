@@ -14,6 +14,9 @@
 #include <string>
 
 constexpr size_t BLOCK_IN_COUNT = 3;
+constexpr size_t XOR_COST = 1;
+constexpr size_t MAJ_COST = 2;
+constexpr size_t MAX_BLOCK_COST = std::max(XOR_COST, MAJ_COST);
 
 enum Function {
     XOR_00,
@@ -39,6 +42,9 @@ class FunctionError : public std::invalid_argument {
 };
 
 size_t function_in_count(const Function &function);
+
+// returns cost assigned to a given function block
+size_t function_cost(const Function &function);
 
 Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
                          const Function &function);

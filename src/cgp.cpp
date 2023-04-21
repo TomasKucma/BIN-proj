@@ -117,8 +117,9 @@ std::ostream &CGP::print_chromosome(const Chromosome &chromosome) {
 
 std::ostream &CGP::print_fitness(const size_t &fitness) {
     if (max_fitness <= fitness) {
-        std::cout << max_fitness << "/" << max_fitness << " (unused blocks "
-                  << fitness - max_fitness << "/" << block_count << ")";
+        std::cout << max_fitness << "/" << max_fitness << " (block cost "
+                  << max_fitness + block_count * MAX_BLOCK_COST - fitness << "/"
+                  << block_count * MAX_BLOCK_COST << ")";
     } else {
         std::cout << fitness << "/" << max_fitness;
     }
@@ -132,8 +133,8 @@ std::ostream &CGP::print_population() {
     return std::cout;
 }
 
-size_t CGP::get_used_block_count(const Chromosome &chromosome) {
-    size_t used_block_count = 0;
+size_t CGP::get_used_block_cost(const Chromosome &chromosome) {
+    size_t used_block_cost = 0;
     std::vector<bool> used_blocks(block_count, false); // ! std::vector<bool>
     // std::cout << "size = " << chromosome_size << ", blocks" << blocks
     //           << "\n"; // DEBUG
@@ -147,13 +148,17 @@ size_t CGP::get_used_block_count(const Chromosome &chromosome) {
                       chromosome[i - i % BLOCK_SIZE + BLOCK_IN_COUNT])))) &&
             chromosome[i] >= in_count) { // then if connected to another block:
             auto block = used_blocks[chromosome[i] - in_count]; // reference
-            used_block_count += !block; // count if wasn't active before
+            used_block_cost +=
+                !block *
+                function_cost(static_cast<Function>(
+                    chromosome[(chromosome[i] - in_count) * BLOCK_SIZE +
+                               BLOCK_IN_COUNT]));
             block = true;
         }
     }
 
-    // std::cout << "used blocks " << used_block_count << "\n"; // DEBUG
-    return used_block_count;
+    // std::cout << "used block cost " << used_block_cost << "\n"; // DEBUG
+    return used_block_cost;
 }
 
 size_t CGP::get_fitness(const Chromosome &chromosome) {
@@ -184,7 +189,8 @@ size_t CGP::get_fitness(const Chromosome &chromosome) {
     }
     // if perfect fitness, take block usage into account
     if (fitness == max_fitness) {
-        fitness += block_count - get_used_block_count(chromosome);
+        fitness +=
+            block_count * MAX_BLOCK_COST - get_used_block_cost(chromosome);
     }
     return fitness;
 }

@@ -17,6 +17,16 @@ size_t function_in_count(const Function &function) {
     }
 }
 
+size_t function_cost(const Function &function) {
+    if (XOR_00 <= function && function <= XOR_11) {
+        return XOR_COST;
+    } else if (MAJ_000 <= function && function <= MAJ_111) {
+        return MAJ_COST;
+    } else {
+        throw FunctionError(function);
+    }
+}
+
 Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
                          const Function &function) {
     switch (function) {

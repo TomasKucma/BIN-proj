@@ -89,7 +89,7 @@ struct CGP {
 
     // Evolution
 
-    size_t get_used_block_count(const Chromosome &chromosome);
+    size_t get_used_block_cost(const Chromosome &chromosome);
     size_t get_fitness(const Chromosome &chromosome);
     void mutate(Chromosome &chromosome);
     std::tuple<size_t, const Chromosome &>
