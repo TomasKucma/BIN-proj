@@ -30,4 +30,12 @@ const std::vector<std::vector<Bitmap>> MEDIAN_7_EXPECTED_OUTS{
 const size_t MEDIAN_7_ITERATION_COUNT = 1000000;
 const CGP MEDIAN_7(7, MEDIAN_7_EXPECTED_OUTS, 6, 4, 4, 10, 5);
 
+// Parity with 5 inputs
+
+const std::vector<std::vector<Bitmap>> PARITY_5_EXPECTED_OUTS{
+    {0b01101001100101101001011001101001}, // out 0
+};
+const size_t PARITY_5_ITERATION_COUNT = 2e4;
+const CGP PARITY_5(5, PARITY_5_EXPECTED_OUTS, 3, 2, 1, 5, 4);
+
 #endif // EXAMPLES_HPP
