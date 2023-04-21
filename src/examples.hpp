@@ -28,7 +28,7 @@ const std::vector<std::vector<Bitmap>> MEDIAN_7_EXPECTED_OUTS{
      0b0000000100010111000101110111111100010111011111110111111111111111},
 };
 const size_t MEDIAN_7_ITERATION_COUNT = 3e4;
-const CGP MEDIAN_7(7, MEDIAN_7_EXPECTED_OUTS, 6, 4, 4, 10, 5);
+const CGP MEDIAN_7(7, MEDIAN_7_EXPECTED_OUTS, 6, 4, 4, 15, 5);
 
 // Parity with 5 inputs
 
@@ -46,7 +46,7 @@ const std::vector<std::vector<Bitmap>> MULT_2b_EXPECTED_OUTS{
     {0b0000000000110010}, // out 2
     {0b0000000000000001}, // out 3
 };
-const size_t MULT_2b_ITERATION_COUNT = 2e5;
-const CGP MULT_2b(6, MULT_2b_EXPECTED_OUTS, 7, 5, 4, 10, 10);
+const size_t MULT_2b_ITERATION_COUNT = 4e5;
+const CGP MULT_2b(6, MULT_2b_EXPECTED_OUTS, 7, 6, 3, 10, 10);
 
 #endif // EXAMPLES_HPP
