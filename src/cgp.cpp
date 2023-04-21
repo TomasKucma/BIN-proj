@@ -282,14 +282,13 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
 
     size_t parent_fitness = 0;
     const Chromosome *parent_ptr = nullptr;
+    std::cout << "Generation: chromosome, fitness\n"; // DEBUG
     for (size_t generation = 0; generation < iter_count; generation++) {
         auto [new_fitness, new_parent] = get_best_chromosome(parent_ptr);
         if (new_fitness > parent_fitness) {
-            std::cout << "Generation " << generation << "\n";
-            std::cout << "Parent chromosome:\n";  // DEBUG
-            print_chromosome(new_parent) << "\n"; // DEBUG
-            std::cout << "Parent fitness ";       // DEBUG
-            print_fitness(new_fitness) << "\n\n"; // DEBUG
+            std::cout << generation << ": ";
+            print_chromosome(new_parent) << ", ";
+            print_fitness(new_fitness) << "\n\n";
         }
         parent_fitness = new_fitness;
         parent_ptr = &new_parent;
