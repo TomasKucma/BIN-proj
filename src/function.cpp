@@ -8,7 +8,7 @@
 #include "function.hpp"
 
 bool is_xor(const Function &function) {
-    return XOR_00 <= function && function <= XOR_11;
+    return XOR_00 <= function && function <= XOR_01; // XOR_11;
 }
 
 bool is_maj(const Function &function) {
@@ -42,24 +42,24 @@ Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
         return ~x ^ ~y;
     case XOR_01:
         return ~x ^ y;
-    case XOR_10:
-        return x ^ ~y;
-    case XOR_11:
-        return x ^ y;
+    // case XOR_10:
+    //     return x ^ ~y;
+    // case XOR_11:
+    //     return x ^ y;
     case MAJ_000:
         return (~x & ~y) ^ (~x & ~z) ^ (~y & ~z);
     case MAJ_001:
         return (~x & ~y) ^ (~x & z) ^ (~y & z);
-    case MAJ_010:
-        return (~x & y) ^ (~x & ~z) ^ (y & ~z);
+    // case MAJ_010:
+    //     return (~x & y) ^ (~x & ~z) ^ (y & ~z);
     case MAJ_011:
         return (~x & y) ^ (~x & z) ^ (y & z);
-    case MAJ_100:
-        return (x & ~y) ^ (x & ~z) ^ (~y & ~z);
-    case MAJ_101:
-        return (x & ~y) ^ (x & z) ^ (~y & z);
-    case MAJ_110:
-        return (x & y) ^ (x & ~z) ^ (y & ~z);
+    // case MAJ_100:
+    //     return (x & ~y) ^ (x & ~z) ^ (~y & ~z);
+    // case MAJ_101:
+    //     return (x & ~y) ^ (x & z) ^ (~y & z);
+    // case MAJ_110:
+    //     return (x & y) ^ (x & ~z) ^ (y & ~z);
     case MAJ_111:
         return (x & y) ^ (x & z) ^ (y & z);
     default:
