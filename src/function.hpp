@@ -35,16 +35,53 @@ class FunctionError : public std::invalid_argument {
                                 std::to_string(function)){};
 };
 
-bool is_xor(const Function &function);
+constexpr bool is_xor(const Function &function) {
+    return XOR_01 <= function && function <= XOR_11;
+}
 
-bool is_maj(const Function &function);
+constexpr bool is_maj(const Function &function) {
+    return MAJ_000 <= function && function <= MAJ_111;
+}
 
-size_t function_in_count(const Function &function);
+constexpr size_t function_in_count(const Function &function) {
+    if (is_xor(function)) {
+        return 2;
+    } else if (is_maj(function)) {
+        return 3;
+    } else {
+        throw FunctionError(function);
+    }
+}
 
 // returns cost assigned to a given function block
-size_t function_cost(const Function &function);
+constexpr size_t function_cost(const Function &function) {
+    if (is_xor(function)) {
+        return XOR_COST;
+    } else if (is_maj(function)) {
+        return MAJ_COST;
+    } else {
+        throw FunctionError(function);
+    }
+}
 
-Bitmap simulate_function(const Bitmap &x, const Bitmap &y, const Bitmap &z,
-                         const Function &function);
+constexpr Bitmap simulate_function(const Bitmap &x, const Bitmap &y,
+                                   const Bitmap &z, const Function &function) {
+    switch (function) {
+    case XOR_01:
+        return ~x ^ y;
+    case XOR_11:
+        return x ^ y;
+    case MAJ_000:
+        return (~x & ~y) ^ (~x & ~z) ^ (~y & ~z);
+    case MAJ_001:
+        return (~x & ~y) ^ (~x & z) ^ (~y & z);
+    case MAJ_011:
+        return (~x & y) ^ (~x & z) ^ (y & z);
+    case MAJ_111:
+        return (x & y) ^ (x & z) ^ (y & z);
+    default:
+        throw FunctionError(function);
+    }
+}
 
 #endif // FUNCTION_HPP
