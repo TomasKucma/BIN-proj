@@ -7,10 +7,18 @@
 
 #include "function.hpp"
 
+bool is_xor(const Function &function) {
+    return XOR_00 <= function && function <= XOR_11;
+}
+
+bool is_maj(const Function &function) {
+    return MAJ_000 <= function && function <= MAJ_111;
+}
+
 size_t function_in_count(const Function &function) {
-    if (XOR_00 <= function && function <= XOR_11) {
+    if (is_xor(function)) {
         return 2;
-    } else if (MAJ_000 <= function && function <= MAJ_111) {
+    } else if (is_maj(function)) {
         return 3;
     } else {
         throw FunctionError(function);
@@ -18,9 +26,9 @@ size_t function_in_count(const Function &function) {
 }
 
 size_t function_cost(const Function &function) {
-    if (XOR_00 <= function && function <= XOR_11) {
+    if (is_xor(function)) {
         return XOR_COST;
-    } else if (MAJ_000 <= function && function <= MAJ_111) {
+    } else if (is_maj(function)) {
         return MAJ_COST;
     } else {
         throw FunctionError(function);

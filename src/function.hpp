@@ -41,6 +41,10 @@ class FunctionError : public std::invalid_argument {
                                 std::to_string(function)){};
 };
 
+bool is_xor(const Function &function);
+
+bool is_maj(const Function &function);
+
 size_t function_in_count(const Function &function);
 
 // returns cost assigned to a given function block
