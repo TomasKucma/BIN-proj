@@ -23,7 +23,5 @@ Generates boolean circuits from XOR and 3 Majority function blocks, utilizing Ca
 
 ## TODO
 
-  - ? reorder bits in inputs/outputs
   - ? clean-up output and remove (or move into macro) debug
-  - extend the functionality beyond basic cgp
-  - documentation with statistical evaluation
+  - statistical evaluation and prep presentation
