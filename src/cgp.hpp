@@ -67,11 +67,11 @@ struct CGP {
         size_t lambda = LAMBDA, size_t mutation_max_count = MUTATION_MAX_COUNT)
         : in_count{in_count}, out_count{expected_outs.size()},
           expected_outs{expected_outs}, cols{cols}, rows{rows}, l_back{l_back},
-          lambda{lambda},
-          mutation_max_count{mutation_max_count}, bit_count{1UL << in_count},
+          lambda{lambda}, mutation_max_count{mutation_max_count},
+          bit_count{1UL << in_count},
           bitmap_count{std::max(bit_count / BITMAP_SIZE, 1UL)},
-          max_fitness{out_count * bit_count},
-          ins(generate_input()), block_count{cols * rows},
+          max_fitness{out_count * bit_count}, ins(generate_input()),
+          block_count{cols * rows},
           chromosome_size{block_count * BLOCK_SIZE + out_count},
           col_values(generate_col_values()),
           population(lambda + 1, Chromosome(chromosome_size)),
@@ -97,6 +97,8 @@ struct CGP {
     void generate_default_population();
     void generate_new_population(const Chromosome &parent);
     std::tuple<size_t, const Chromosome &> run_evolution(size_t iter_count);
+    // implements theorem 1 from http://msoeken.github.io/papers/2019_aspdac.pdf
+    void theorem1(Chromosome chromosome, size_t blk_dx);
 };
 
 #endif // CGP_HPP

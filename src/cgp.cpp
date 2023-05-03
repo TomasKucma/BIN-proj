@@ -212,6 +212,7 @@ void CGP::mutate(Chromosome &chromosome) {
             //                   ? "block"
             //                   : "function")
             //           << " thus " << chromosome[i] << "\n"; // DEBUG
+            theorem1(chromosome, i);
         } else { // output mutation
             chromosome[i] = rand() % (block_count + in_count);
         }
@@ -296,4 +297,84 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
         // print_population() << "\n"; // DEBUG
     }
     return get_best_chromosome();
+}
+
+void CGP::theorem1(Chromosome chromosome, size_t function_index) {
+    // std::cout << "theorem1\n";            // DEBUG
+    // print_chromosome(chromosome) << "\n"; // DEBUG
+    size_t index = function_index - BLOCK_IN_COUNT;
+
+    // check if the function index is actually a function index
+    if (index % BLOCK_SIZE != 0) {
+        return;
+    }
+
+    // check if the chosen block is maj function block
+    Function function = static_cast<Function>(chromosome[function_index]);
+    if (!is_maj(function)) {
+        return;
+    }
+
+    // check if its children are xor function blocks
+    std::array<size_t, function_in_count(MAJ_111)> in_indexes{};
+    for (size_t i = 0; i < in_indexes.size(); index++, i++) {
+        if (chromosome[index] < in_count) {
+            return;
+        }
+        in_indexes[i] = (chromosome[index] - in_count) * BLOCK_SIZE;
+        function =
+            static_cast<Function>(chromosome[in_indexes[i] + BLOCK_IN_COUNT]);
+        if (!is_xor(function)) {
+            return;
+        }
+    }
+
+    // check if its children share at least one input
+    const size_t invalid_value = in_count + block_count;
+    size_t shared_in{invalid_value};
+    std::array<size_t, function_in_count(MAJ_111)> remaining_ins{};
+    for (size_t i = 0; i < function_in_count(XOR_11); i++) {
+        for (size_t j = 0; j < function_in_count(XOR_11); j++) {
+            if (chromosome[in_indexes[0] + i] !=
+                chromosome[in_indexes[1] + j]) {
+                continue;
+            }
+            for (size_t k = 0; k < function_in_count(XOR_11); k++) {
+                if (chromosome[in_indexes[0] + i] !=
+                    chromosome[in_indexes[2] + k]) {
+                    continue;
+                }
+                remaining_ins = {chromosome[in_indexes[0] + 1 - i],
+                                 chromosome[in_indexes[1] + 1 - j],
+                                 chromosome[in_indexes[2] + 1 - k]};
+                shared_in = chromosome[in_indexes[0] + i];
+            }
+        }
+    }
+    if (shared_in == invalid_value) {
+        return;
+    }
+
+    // perform replacement using theorem 1
+    // first by replacing one of the xor blocks with maj block
+    size_t max_index =
+        *std::max_element(std::begin(in_indexes), std::end(in_indexes));
+    chromosome[max_index + BLOCK_IN_COUNT] = function;
+    for (size_t i = 0; i < remaining_ins.size(); i++) {
+        chromosome[max_index + i] = remaining_ins[i];
+    }
+    index = function_index - BLOCK_IN_COUNT;
+    // then by replacing the maj block with xor block
+    chromosome[function_index] = XOR_11;
+    chromosome[index] = shared_in;
+    chromosome[index + 1] = max_index / BLOCK_SIZE + in_count;
+
+    // Note: this tranformation may change polarity of the remaining inputs, as
+    // it doesn't take into account the original XOR polarities. However it is
+    // expected to be called after mutation, when a random function (with random
+    // polarity) was chosen, so re-randomizing the polarity has no negative
+    // impact
+
+    // std::cout << "theorem1 done\n";                 // DEBUG
+    // print_chromosome(chromosome) << "\n";           // DEBUG
 }
