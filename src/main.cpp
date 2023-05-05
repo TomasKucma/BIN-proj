@@ -9,6 +9,12 @@
 #include <fstream>
 #include <iostream>
 
+#ifdef STANDARD_VARIANT
+constexpr char *out_folder = "logs_standard/";
+#else  // STANDARD_VARIANT
+constexpr char *out_folder = "logs/";
+#endif // STANDARD_VARIANT
+
 void test_cgp(CGP cgp, const size_t iteration_count) {
     auto best = cgp.run_evolution(iteration_count);
     auto best_chromosome = std::get<const Chromosome &>(best);
@@ -26,8 +32,8 @@ void test_cgp_configurations(const CGP &cgp, const size_t iteration_count,
         for (size_t i = 0; i < experiment_count; i++) {
             std::cout << "wtf\n";
             std::cout << (cgp.lambda + 1) * iteration_count / pop_size << "\n";
-            std::ofstream out(std::string{"logs/"} + file_prefix + "_" +
-                              std::to_string(pop_size) + "_" +
+            std::ofstream out(std::string{out_folder} + "/" + file_prefix +
+                              "_" + std::to_string(pop_size) + "_" +
                               std::to_string(i) + ".log");
             CGP config_cgp(cgp.in_count, cgp.expected_outs, cgp.cols, cgp.rows,
                            cgp.l_back, pop_size - 1, cgp.mutation_max_count,

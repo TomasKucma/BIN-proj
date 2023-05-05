@@ -9,6 +9,10 @@
 #ifndef FUNCTION_HPP
 #define FUNCTION_HPP
 
+#ifdef STANDARD_VARIANT
+#include "standard_function.hpp"
+#else // STANDARD_VARIANT
+
 #include "types.hpp"
 #include <stdexcept>
 #include <string>
@@ -83,5 +87,7 @@ constexpr Bitmap simulate_function(const Bitmap &x, const Bitmap &y,
         throw FunctionError(function);
     }
 }
+
+#endif // STANDARD_VARIANT
 
 #endif // FUNCTION_HPP

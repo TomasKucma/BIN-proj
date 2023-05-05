@@ -298,6 +298,7 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
     return get_best_chromosome();
 }
 
+#ifndef STANDARD_VARIANT
 void CGP::theorem1(Chromosome chromosome, size_t function_index) {
     // out << "theorem1\n";            // DEBUG
     // print_chromosome(chromosome) << "\n"; // DEBUG
@@ -377,3 +378,4 @@ void CGP::theorem1(Chromosome chromosome, size_t function_index) {
     // out << "theorem1 done\n";                 // DEBUG
     // print_chromosome(chromosome) << "\n";           // DEBUG
 }
+#endif // STANDARD_VARIANT
