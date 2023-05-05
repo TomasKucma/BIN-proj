@@ -15,7 +15,7 @@ Generates boolean circuits from XOR and 3 Majority function blocks, utilizing Ca
   - `src` - contains source files, specifically:
     - `main.cpp` - contains `main` of the program
     - `cgp.cpp`, `cgp.hpp` - contains implementation of CGP algorithm utilizing XOR and Majority function blocks
-    - `function.cpp`, `function.hpp` - contains implementation of XOR and Majority blocks
+    - `function.hpp` - contains implementation of XOR and Majority blocks
     - `types.hpp` - contains defintion of types used in CGP
     - `examples.hpp` - contains examples of CGP configurations for various circuits
   - `cgp` - project binary, created using `make build` command
