@@ -10,9 +10,9 @@
 #include <iostream>
 
 #ifdef STANDARD_VARIANT
-constexpr char *out_folder = "logs_standard/";
+constexpr const char *out_folder = "logs_standard/";
 #else  // STANDARD_VARIANT
-constexpr char *out_folder = "logs/";
+constexpr const char *out_folder = "logs/";
 #endif // STANDARD_VARIANT
 
 void test_cgp(CGP cgp, const size_t iteration_count) {
@@ -30,8 +30,6 @@ void test_cgp_configurations(const CGP &cgp, const size_t iteration_count,
     constexpr size_t experiment_count = 10;
     for (size_t pop_size = 5; pop_size <= 20; pop_size += 5) {
         for (size_t i = 0; i < experiment_count; i++) {
-            std::cout << "wtf\n";
-            std::cout << (cgp.lambda + 1) * iteration_count / pop_size << "\n";
             std::ofstream out(std::string{out_folder} + "/" + file_prefix +
                               "_" + std::to_string(pop_size) + "_" +
                               std::to_string(i) + ".log");
@@ -45,6 +43,7 @@ void test_cgp_configurations(const CGP &cgp, const size_t iteration_count,
 }
 
 int main(int argc, char *argv[]) {
+    srand(time(NULL));
     // std::cout << "CGP for 2bit adder:\n\n"; // DEBUG
     // test_cgp(ADDER_2b, ADDER_2b_ITERATION_COUNT);
     test_cgp_configurations(ADDER_2b, ADDER_2b_ITERATION_COUNT, "adder2b");

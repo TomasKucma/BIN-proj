@@ -171,11 +171,12 @@ size_t CGP::get_fitness(const Chromosome &chromosome) {
         // funciton blocks
         auto chromosome_iter = chromosome.begin();
         for (size_t j = 0; j < block_count; j++, value_iter++) {
-            Bitmap x = current_values[*chromosome_iter++];
-            Bitmap y = current_values[*chromosome_iter++];
-            Bitmap z = current_values[*chromosome_iter++];
+            std::array<Bitmap, BLOCK_IN_COUNT> inputs{};
+            for (auto &input : inputs) {
+                input = current_values[*chromosome_iter++];
+            }
             Function function = Function(*chromosome_iter++);
-            *value_iter = simulate_function(x, y, z, function);
+            *value_iter = simulate_function(inputs, function);
         }
         // output
         for (const auto &out : expected_outs) {
@@ -207,11 +208,13 @@ void CGP::mutate(Chromosome &chromosome) {
                 (i % BLOCK_SIZE) < BLOCK_IN_COUNT
                     ? col_values[col][rand() % col_values[col].size()]
                     : rand() % FUNCTION_COUNT;
-            // out << ((i % BLOCK_SIZE) < BLOCK_IN_COUNT
-            //                   ? "block"
-            //                   : "function")
-            //           << " thus " << chromosome[i] << "\n"; // DEBUG
+// out << ((i % BLOCK_SIZE) < BLOCK_IN_COUNT
+//                   ? "block"
+//                   : "function")
+//           << " thus " << chromosome[i] << "\n"; // DEBUG
+#ifndef STANDARD_VARIANT
             theorem1(chromosome, i);
+#endif           // STANDARD_VARIANT
         } else { // output mutation
             chromosome[i] = rand() % (block_count + in_count);
         }

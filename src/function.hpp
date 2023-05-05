@@ -9,18 +9,21 @@
 #ifndef FUNCTION_HPP
 #define FUNCTION_HPP
 
+#include "types.hpp"
+#include <array>
+#include <stdexcept>
+#include <string>
+
 #ifdef STANDARD_VARIANT
 #include "standard_function.hpp"
 #else // STANDARD_VARIANT
-
-#include "types.hpp"
-#include <stdexcept>
-#include <string>
 
 constexpr size_t BLOCK_IN_COUNT = 3;
 constexpr size_t XOR_COST = 1;
 constexpr size_t MAJ_COST = 2;
 constexpr size_t MAX_BLOCK_COST = std::max(XOR_COST, MAJ_COST);
+
+using BlockInput = std::array<Bitmap, BLOCK_IN_COUNT>;
 
 enum Function {
     XOR_01,
@@ -68,21 +71,25 @@ constexpr size_t function_cost(const Function &function) {
     }
 }
 
-constexpr Bitmap simulate_function(const Bitmap &x, const Bitmap &y,
-                                   const Bitmap &z, const Function &function) {
+constexpr Bitmap simulate_function(const BlockInput &inputs,
+                                   const Function &function) {
     switch (function) {
     case XOR_01:
-        return ~x ^ y;
+        return ~inputs[0] ^ inputs[1];
     case XOR_11:
-        return x ^ y;
+        return inputs[0] ^ inputs[1];
     case MAJ_000:
-        return (~x & ~y) ^ (~x & ~z) ^ (~y & ~z);
+        return (~inputs[0] & ~inputs[1]) ^ (~inputs[0] & ~inputs[2]) ^
+               (~inputs[1] & ~inputs[2]);
     case MAJ_001:
-        return (~x & ~y) ^ (~x & z) ^ (~y & z);
+        return (~inputs[0] & ~inputs[1]) ^ (~inputs[0] & inputs[2]) ^
+               (~inputs[1] & inputs[2]);
     case MAJ_011:
-        return (~x & y) ^ (~x & z) ^ (y & z);
+        return (~inputs[0] & inputs[1]) ^ (~inputs[0] & inputs[2]) ^
+               (inputs[1] & inputs[2]);
     case MAJ_111:
-        return (x & y) ^ (x & z) ^ (y & z);
+        return (inputs[0] & inputs[1]) ^ (inputs[0] & inputs[2]) ^
+               (inputs[1] & inputs[2]);
     default:
         throw FunctionError(function);
     }

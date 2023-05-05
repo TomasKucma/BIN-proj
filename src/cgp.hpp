@@ -99,8 +99,10 @@ struct CGP {
     void generate_default_population();
     void generate_new_population(const Chromosome &parent);
     std::tuple<size_t, const Chromosome &> run_evolution(size_t iter_count);
+#ifndef STANDARD_VARIANT
     // implements theorem 1 from http://msoeken.github.io/papers/2019_aspdac.pdf
     void theorem1(Chromosome chromosome, size_t blk_dx);
+#endif // STANDARD_VARIANT
 };
 
 #endif // CGP_HPP
