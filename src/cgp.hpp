@@ -11,7 +11,7 @@
 
 #include "function.hpp"
 #include "types.hpp"
-#include <ostream>
+#include <iostream>
 #include <tuple>
 #include <vector>
 
@@ -42,6 +42,7 @@ struct CGP {
     const size_t l_back;
     const size_t lambda;
     const size_t mutation_max_count;
+    std::ostream &out;
 
     // Internal data
 
@@ -64,10 +65,11 @@ struct CGP {
     CGP(size_t in_count = IN_COUNT,
         const std::vector<std::vector<Bitmap>> &expected_outs = EXPECTED_OUTS,
         size_t cols = COLS, size_t rows = ROWS, size_t l_back = L_BACK,
-        size_t lambda = LAMBDA, size_t mutation_max_count = MUTATION_MAX_COUNT)
+        size_t lambda = LAMBDA, size_t mutation_max_count = MUTATION_MAX_COUNT,
+        std::ostream &out = std::cout)
         : in_count{in_count}, out_count{expected_outs.size()},
           expected_outs{expected_outs}, cols{cols}, rows{rows}, l_back{l_back},
-          lambda{lambda}, mutation_max_count{mutation_max_count},
+          lambda{lambda}, mutation_max_count{mutation_max_count}, out{out},
           bit_count{1UL << in_count},
           bitmap_count{std::max(bit_count / BITMAP_SIZE, 1UL)},
           max_fitness{out_count * bit_count}, ins(generate_input()),

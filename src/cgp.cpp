@@ -9,7 +9,6 @@
 #include "cgp.hpp"
 #include "function.hpp"
 #include <bit>
-#include <iostream>
 #include <stdexcept>
 #include <tuple>
 #include <vector>
@@ -88,55 +87,55 @@ std::vector<std::vector<Gene>> CGP::generate_col_values() {
 }
 
 std::ostream &CGP::print_parameters() {
-    std::cout << "Parameters: (" << in_count << "," << out_count << ", " << cols
-              << "," << rows << ", " << BLOCK_IN_COUNT << "," << l_back << ", "
-              << lambda << "+1," << mutation_max_count << ")";
-    return std::cout;
+    out << "Parameters: (" << in_count << "," << out_count << ", " << cols
+        << "," << rows << ", " << BLOCK_IN_COUNT << "," << l_back << ", "
+        << lambda << "+1," << mutation_max_count << ")";
+    return out;
 }
 
 std::ostream &CGP::print_chromosome(const Chromosome &chromosome) {
     auto chrom_iter = chromosome.cbegin();
     // function blocks
     for (size_t j = 0; j < block_count; j++, chrom_iter++) {
-        std::cout << "([" << j + in_count << "],";
+        out << "([" << j + in_count << "],";
         // inputs
         for (size_t k = 0; k < BLOCK_IN_COUNT; k++, chrom_iter++) {
-            std::cout << *chrom_iter << ",";
+            out << *chrom_iter << ",";
         }
         // function
-        std::cout << *chrom_iter << ")";
+        out << *chrom_iter << ")";
     }
-    std::cout << "(";
+    out << "(";
     // output
     for (size_t j = 0; j < out_count; j++, chrom_iter++) {
-        std::cout << (j ? "," : "") << *chrom_iter;
+        out << (j ? "," : "") << *chrom_iter;
     }
-    std::cout << ")";
-    return std::cout;
+    out << ")";
+    return out;
 }
 
 std::ostream &CGP::print_fitness(const size_t &fitness) {
     if (max_fitness <= fitness) {
-        std::cout << max_fitness << "/" << max_fitness << " (block cost "
-                  << max_fitness + block_count * MAX_BLOCK_COST - fitness << "/"
-                  << block_count * MAX_BLOCK_COST << ")";
+        out << max_fitness << "/" << max_fitness << " (block cost "
+            << max_fitness + block_count * MAX_BLOCK_COST - fitness << "/"
+            << block_count * MAX_BLOCK_COST << ")";
     } else {
-        std::cout << fitness << "/" << max_fitness;
+        out << fitness << "/" << max_fitness;
     }
-    return std::cout;
+    return out;
 }
 
 std::ostream &CGP::print_population() {
     for (const auto &chromosome : population) {
         print_chromosome(chromosome) << "\n";
     }
-    return std::cout;
+    return out;
 }
 
 size_t CGP::get_used_block_cost(const Chromosome &chromosome) {
     size_t used_block_cost = 0;
     std::vector<bool> used_blocks(block_count, false); // ! std::vector<bool>
-    // std::cout << "size = " << chromosome_size << ", blocks" << blocks
+    // out << "size = " << chromosome_size << ", blocks" << blocks
     //           << "\n"; // DEBUG
 
     size_t i;
@@ -157,7 +156,7 @@ size_t CGP::get_used_block_cost(const Chromosome &chromosome) {
         }
     }
 
-    // std::cout << "used block cost " << used_block_cost << "\n"; // DEBUG
+    // out << "used block cost " << used_block_cost << "\n"; // DEBUG
     return used_block_cost;
 }
 
@@ -196,19 +195,19 @@ size_t CGP::get_fitness(const Chromosome &chromosome) {
 }
 
 void CGP::mutate(Chromosome &chromosome) {
-    // std::cout << "mutating\n"; // DEBUG
+    // out << "mutating\n"; // DEBUG
     size_t mutate_count = (rand() % mutation_max_count) + 1;
     for (size_t j = 0; j < mutate_count; j++) {
         size_t i = rand() % chromosome_size;
         size_t col = i / (rows * BLOCK_SIZE);
-        // std::cout << "i=" << i << ", col=" << col << "\n"; // DEBUG
+        // out << "i=" << i << ", col=" << col << "\n"; // DEBUG
 
         if (i < chromosome_size - out_count) { // block mutation
             chromosome[i] =
                 (i % BLOCK_SIZE) < BLOCK_IN_COUNT
                     ? col_values[col][rand() % col_values[col].size()]
                     : rand() % FUNCTION_COUNT;
-            // std::cout << ((i % BLOCK_SIZE) < BLOCK_IN_COUNT
+            // out << ((i % BLOCK_SIZE) < BLOCK_IN_COUNT
             //                   ? "block"
             //                   : "function")
             //           << " thus " << chromosome[i] << "\n"; // DEBUG
@@ -223,7 +222,7 @@ std::tuple<size_t, const Chromosome &>
 CGP::get_best_chromosome(const Chromosome *const parent_ptr) {
     auto best_chromosome = population.begin();
     size_t best_fitness = get_fitness(*best_chromosome);
-    // std::cout << "default best is "
+    // out << "default best is "
     //           << (&*best_chromosome == parent_ptr ? "" : "not ")
     //           << "parent\n"; // DEBUG
     for (auto chrom_iter = population.begin() + 1;
@@ -231,14 +230,14 @@ CGP::get_best_chromosome(const Chromosome *const parent_ptr) {
         size_t fitness = get_fitness(*chrom_iter);
         if (fitness > best_fitness ||
             (fitness == best_fitness &&
-             //  (std::cout << "checking if parent in best chromosome\n",
+             //  (out << "checking if parent in best chromosome\n",
              //   true) && // DEBUG
              &*chrom_iter != parent_ptr)) {
-            // std::cout << "not parent\n"; // DEBUG
+            // out << "not parent\n"; // DEBUG
             best_chromosome = chrom_iter;
             best_fitness = fitness;
             // } else if (fitness == best_fitness) { // DEBUG
-            //     std::cout << "parent\n";
+            //     out << "parent\n";
         }
     }
     return std::tie(best_fitness, *best_chromosome);
@@ -271,7 +270,7 @@ void CGP::generate_new_population(const Chromosome &parent) {
             chromosome = parent;
             mutate(chromosome);
             // } else { // DEBUG
-            //     std::cout << "skipping parent while generating\n";
+            //     out << "skipping parent while generating\n";
         }
     }
 }
@@ -283,11 +282,11 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
 
     size_t parent_fitness = 0;
     const Chromosome *parent_ptr = nullptr;
-    std::cout << "Generation: chromosome, fitness\n"; // DEBUG
+    out << "Generation: chromosome, fitness\n"; // DEBUG
     for (size_t generation = 0; generation < iter_count; generation++) {
         auto [new_fitness, new_parent] = get_best_chromosome(parent_ptr);
         if (new_fitness > parent_fitness) {
-            std::cout << generation << ": ";
+            out << generation << ": ";
             print_chromosome(new_parent) << ", ";
             print_fitness(new_fitness) << "\n\n";
         }
@@ -300,7 +299,7 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
 }
 
 void CGP::theorem1(Chromosome chromosome, size_t function_index) {
-    // std::cout << "theorem1\n";            // DEBUG
+    // out << "theorem1\n";            // DEBUG
     // print_chromosome(chromosome) << "\n"; // DEBUG
     size_t index = function_index - BLOCK_IN_COUNT;
 
@@ -375,6 +374,6 @@ void CGP::theorem1(Chromosome chromosome, size_t function_index) {
     // polarity) was chosen, so re-randomizing the polarity has no negative
     // impact
 
-    // std::cout << "theorem1 done\n";                 // DEBUG
+    // out << "theorem1 done\n";                 // DEBUG
     // print_chromosome(chromosome) << "\n";           // DEBUG
 }
