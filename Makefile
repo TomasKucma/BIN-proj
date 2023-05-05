@@ -11,7 +11,7 @@
 
 AUTHOR=xkucma00
 PROJ_NAME=cgp
-PACK_CONTENTS=Makefile src README.md doc
+PACK_CONTENTS=Makefile src README.md plot
 PACK_NAME=BIN-$(AUTHOR).zip
 CPP_FLAGS=-std=c++20 -Wall -Werror -O2
 SRCS=$(wildcard src/*.cpp)
