@@ -288,7 +288,7 @@ std::tuple<size_t, const Chromosome &> CGP::run_evolution(size_t iter_count) {
         if (new_fitness > parent_fitness) {
             out << generation << ": ";
             print_chromosome(new_parent) << ", ";
-            print_fitness(new_fitness) << "\n\n";
+            print_fitness(new_fitness) << "\n";
         }
         parent_fitness = new_fitness;
         parent_ptr = &new_parent;
