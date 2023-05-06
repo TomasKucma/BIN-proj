@@ -11,7 +11,7 @@
 
 AUTHOR=xkucma00
 PROJ_NAME=cgp
-PACK_CONTENTS=Makefile src README.md plot
+PACK_CONTENTS=Makefile src README.md plot logs logs_standard evaluate.ipynb BIN_presentation.pdf
 PACK_NAME=BIN-$(AUTHOR).zip
 CPP_FLAGS=-std=c++20 -Wall -Werror -O2
 SRCS=$(wildcard src/*.cpp)
