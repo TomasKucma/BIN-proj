@@ -42,19 +42,34 @@ void test_cgp_configurations(const CGP &cgp, const size_t iteration_count,
     }
 }
 
+void run_statistics() {
+    std::cout << "Generating statistics\n\n";
+    std::cout << "2bit adder\n";
+    test_cgp_configurations(ADDER_2b, ADDER_2b_ITERATION_COUNT, "adder2b");
+    std::cout << "7 input median\n";
+    test_cgp_configurations(MEDIAN_7, MEDIAN_7_ITERATION_COUNT, "median7");
+    std::cout << "5 input parity\n";
+    test_cgp_configurations(PARITY_5, PARITY_5_ITERATION_COUNT, "parity5");
+    std::cout << "2bit input multiplier\n";
+    test_cgp_configurations(MULT_2b, MULT_2b_ITERATION_COUNT, "mult2b");
+}
+
+void run_examples() {
+    std::cout << "Running with examples\n\n";
+    std::cout << "CGP for 2bit adder:\n\n";
+    test_cgp(ADDER_2b, ADDER_2b_ITERATION_COUNT);
+    std::cout << "CGP for 7 input median:\n\n";
+    test_cgp(MEDIAN_7, MEDIAN_7_ITERATION_COUNT);
+    std::cout << "CGP for 5 input parity:\n\n";
+    test_cgp(PARITY_5, PARITY_5_ITERATION_COUNT);
+    std::cout << "CGP for 2bit input multiplier:\n\n";
+    test_cgp(MULT_2b, MULT_2b_ITERATION_COUNT);
+}
+
 int main(int argc, char *argv[]) {
     srand(time(NULL));
-    // std::cout << "CGP for 2bit adder:\n\n"; // DEBUG
-    // test_cgp(ADDER_2b, ADDER_2b_ITERATION_COUNT);
-    test_cgp_configurations(ADDER_2b, ADDER_2b_ITERATION_COUNT, "adder2b");
-    // std::cout << "CGP for 7 input median:\n\n"; // DEBUG
-    // test_cgp(MEDIAN_7, MEDIAN_7_ITERATION_COUNT);
-    test_cgp_configurations(MEDIAN_7, MEDIAN_7_ITERATION_COUNT, "median7");
-    // std::cout << "CGP for 5 input parity:\n\n"; // DEBUG
-    // test_cgp(PARITY_5, PARITY_5_ITERATION_COUNT);
-    test_cgp_configurations(PARITY_5, PARITY_5_ITERATION_COUNT, "parity5");
-    // std::cout << "CGP for 2bit input multiplier:\n\n"; // DEBUG
-    // test_cgp(MULT_2b, MULT_2b_ITERATION_COUNT);
-    test_cgp_configurations(MULT_2b, MULT_2b_ITERATION_COUNT, "mult2b");
+    run_examples();
+    std::cout << std::string(80, '-') << "\n";
+    run_statistics();
     return 0;
 }
